@@ -24,7 +24,7 @@ jobs:
       - name: Install Claude Code
         run: |
           version=$(sed -n '1s/^\/\/ Written by Claude Code \(.*\)\.$/\1/p' types/claude-code/claude-code.d.ts)
-          npm install --global "@anthropic-ai/claude-code@${version:?no version on the types' first line}"
+          npm install --global "@anthropic-ai/claude-code@${version:?no Claude Code version on the first line of the types}"
 
       - run: bun run check
 
