@@ -1,0 +1,18 @@
+{
+  "name": "images",
+  "version": "0.1.0",
+  "description": "Draws pictures in the terminal transcript where the terminal speaks the kitty graphics protocol (kitty, Ghostty): what Read returns for a PNG, JPEG or GIF, the image blocks of MCP tool results, and images pasted into a prompt; their name and size elsewhere. A click hides a picture; its caption shows it again.",
+  "author": {
+    "name": "Adam Newell"
+  },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "maxRows": {
+      "type": "number",
+      "title": "Picture height",
+      "description": "The most terminal rows a picture takes, its caption included, from 2 to 256. A short terminal gives a picture half its height at most.",
+      "required": false,
+      "default": 20
+    }
+  }
+}

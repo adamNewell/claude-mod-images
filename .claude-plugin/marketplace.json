@@ -1,0 +1,15 @@
+{
+  "name": "claude-mod-images",
+  "description": "Claude Mods for pictures in the Claude Code terminal.",
+  "owner": {
+    "name": "Adam Newell"
+  },
+  "plugins": [
+    {
+      "name": "images",
+      "source": "./",
+      "description": "Draws pictures in the terminal transcript over the kitty graphics protocol: Read results, MCP tool images, and pasted images; a click hides one.",
+      "version": "0.1.0"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      CLAUDE_CODE_ENABLE_FUNCTION_HOOKS: '1'
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+
+      - run: bun install --frozen-lockfile
+
+      # The Claude Code that wrote types/claude-code, from its first line, so the
+      # engine the tests run against is the one the types describe.
+      - name: Install Claude Code
+        run: |
+          version=$(sed -n '1s/^\/\/ Written by Claude Code \(.*\)\.$/\1/p' types/claude-code/claude-code.d.ts)
+          npm install --global "@anthropic-ai/claude-code@${version:?no version on the types' first line}"
+
+      - run: bun run check
+
+      - name: Vendored decoders match their packages
+        run: bun run vendor && git diff --exit-code hooks/vendor
