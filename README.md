@@ -11,6 +11,8 @@ A Claude Mod that draws pictures right in the terminal transcript:
 In a collapsed group (`Read 3 files`, `Called shots`), the pictures sit side
 by side under the line.
 
+![Claude reads a latency chart and a fractal, which draw under the Read line; a click hides the fractal and its caption shows it again; a pasted sunset draws under its prompt; /images off and on.](docs/demo.gif)
+
 It draws through Claude Code's own terminal `Image` element, which speaks the
 kitty graphics protocol. That works in kitty and Ghostty. Other terminals get
 the `alt` text (`photo.png · 800×800`).
@@ -36,14 +38,14 @@ over a picture.
 
 ## Install
 
-From a clone of this repository:
+In Claude Code:
 
 ```
-/plugin marketplace add /path/to/claude-mod-images
+/plugin marketplace add adamNewell/claude-mod-images
 /plugin install images@claude-mod-images
 ```
 
-Or load it for one session only:
+Or load a clone for one session only:
 
 ```sh
 claude --plugin-dir /path/to/claude-mod-images
@@ -114,3 +116,9 @@ against always matches the types.
 `hooks/vendor/` holds the decoders, bundled as ES modules with their licenses
 on top. It's committed, because a hooks module can only import the plugin's
 own files.
+
+## License
+
+MIT, see [LICENSE](LICENSE). The decoders bundled in `hooks/vendor/` keep
+their own licenses, printed at the top of each file: jpeg-js (Apache-2.0 and
+BSD-3-Clause), omggif (MIT), fast-png, fflate and iobuffer (MIT).

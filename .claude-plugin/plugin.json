@@ -5,6 +5,9 @@
   "author": {
     "name": "Adam Newell"
   },
+  "homepage": "https://github.com/adamNewell/claude-mod-images",
+  "repository": "https://github.com/adamNewell/claude-mod-images",
+  "license": "MIT",
   "types": "./types/index.d.ts",
   "userConfig": {
     "maxRows": {

@@ -1,6 +1,7 @@
 {
   "name": "claude-mod-images",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "packageManager": "bun@1.4.0",
   "scripts": {
