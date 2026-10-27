@@ -1,5 +1,5 @@
 {
-  "description": "The pictures of Read and MCP calls under their rows and a collapsed group's line, and of pasted images under their prompt, on the terminal; a click on one, or its caption, toggles it",
+  "description": "The pictures of Read and MCP calls under their rows and a collapsed group's line, and of pasted images under their prompt, on the terminal; a click on one opens it in the image viewer, a click on its caption toggles it",
   "modules": [
     "./register.tsx"
   ]

@@ -12,9 +12,9 @@ const call = (tool: string, output: unknown) => ({
 })
 
 describe('pictures-of', () => {
-  test('a Read of an image is one picture named for its file', () => {
+  test('a Read of an image is one picture named for its file, keeping its path', () => {
     expect(picturesOf(call('Read', { type: 'image', file: { base64: 'b', type: 'image/png' } }))).toEqual([
-      { id: 'call#0', base64: 'b', mediaType: 'image/png', name: 'a.png' },
+      { id: 'call#0', base64: 'b', mediaType: 'image/png', name: 'a.png', path: '/work/a.png' },
     ])
   })
 

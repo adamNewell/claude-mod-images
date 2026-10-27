@@ -165,16 +165,41 @@ describe('register', () => {
     expect(await (await mountRow($, row)).find({ type: 'Image' })).toBeUndefined()
   })
 
-  test('a click on the picture hides it', async ($, on) => {
+  test('a click on a read picture opens its file in the image viewer', async ($, on) => {
     engineRow(on)
-    const ui = await mountRow($, readRow('click', 'image/png', TINY_PNG))
+    const runs: { argv: readonly string[]; init?: { stdin?: string } }[] = []
+    on('fs.exists', () => ({ value: true }))
+    on('process.run', ($, e) => {
+      runs.push(e)
+      return { value: { exitCode: 0, stdout: '', stderr: '' } } as never
+    })
+    const ui = await mountRow($, readRow('click', 'image/png', TINY_PNG, '/work/shot.png'))
     const target = { in: 'click click#0' }
 
     await ui.resize({ columns: 2, rows: 1, ...target })
     await ui.pointer({ type: 'down', x: 1, y: 0, button: 'left', ...target })
     await ui.pointer({ type: 'up', x: 1, y: 0, button: 'left', ...target })
 
-    expect(await ui.find({ type: 'Image' })).toBeUndefined()
+    expect(runs.map(run => run.argv.at(-1))).toEqual(['/work/shot.png'])
+    expect(await ui.find({ type: 'Image' })).toBeDefined()
+  })
+
+  test('a click on a picture with no file writes its bytes out and opens those', async ($, on) => {
+    engineRow(on)
+    const runs: { argv: readonly string[]; init?: { stdin?: string } }[] = []
+    on('fs.exists', () => ({ value: false }))
+    on('process.run', ($, e) => {
+      runs.push(e)
+      return { value: { exitCode: 0, stdout: '', stderr: '' } } as never
+    })
+    const ui = await mountRow($, readRow('gone', 'image/png', TINY_PNG, '/work/gone.png'))
+    const target = { in: 'click gone#0' }
+
+    await ui.resize({ columns: 2, rows: 1, ...target })
+    await ui.pointer({ type: 'down', x: 1, y: 0, button: 'left', ...target })
+    await ui.pointer({ type: 'up', x: 1, y: 0, button: 'left', ...target })
+
+    expect(runs.map(run => [run.argv.at(-1), run.init?.stdin])).toEqual([['gone_0.png', TINY_PNG]])
   })
 
   test('a press dragged off the picture, or a right click, leaves it shown', async ($, on) => {

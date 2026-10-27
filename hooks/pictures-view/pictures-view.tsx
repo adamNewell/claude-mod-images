@@ -19,11 +19,12 @@ export type Shown = {
 /**
  * The pictures in a row under a transcript row, wrapping at its width: each
  * an Image over a caption that hides and shows it (`▾` shown, `▸` hidden),
- * or a dim line saying why it is not drawn. A click on the picture hides it.
+ * or a dim line saying why it is not drawn. A click on the picture opens it
+ * in the desktop's image viewer.
  *
  * An Image is a leaf with no handler, and text over its cells would replace
  * the placeholders that carry its pixels: the click lands on a `Client` laid
- * over it that draws nothing (`click-to-hide.tsx`).
+ * over it that draws nothing (`click-to-open.tsx`).
  *
  * @param ui the terminal's elements, from `$.ui.resolve(e)`
  * @param pictures the pictures, in the order their calls ran
@@ -55,7 +56,7 @@ export const picturesView = (
                 <Box position="absolute" top={0} left={0}>
                   <Client
                     key={`click ${id}`}
-                    module="../click-to-hide.tsx"
+                    module="../click-to-open.tsx"
                     props={id}
                     width={cells.columns}
                     height={cells.rows}

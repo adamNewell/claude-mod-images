@@ -1,7 +1,7 @@
 {
   "name": "images",
   "version": "0.1.0",
-  "description": "Draws pictures in the terminal transcript where the terminal speaks the kitty graphics protocol (kitty, Ghostty): what Read returns for a PNG, JPEG or GIF, the image blocks of MCP tool results, and images pasted into a prompt; their name and size elsewhere. A click hides a picture; its caption shows it again.",
+  "description": "Draws pictures in the terminal transcript where the terminal speaks the kitty graphics protocol (kitty, Ghostty): what Read returns for a PNG, JPEG or GIF, the image blocks of MCP tool results, and images pasted into a prompt; their name and size elsewhere. A click opens a picture in the image viewer; its caption hides and shows it.",
   "author": {
     "name": "Adam Newell"
   },
