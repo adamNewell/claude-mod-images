@@ -1,13 +1,15 @@
 /**
  * A picture to draw: an id unique in the session (its call's or message's,
  * with its place there), the bytes as the model saw them (Read may re-encode,
- * a PNG read as JPEG), their MIME type and a name to show.
+ * a PNG read as JPEG), their MIME type and a name to show. A Read's picture
+ * also keeps the file it came from, so a click can open the original.
  */
 export type Picture = {
   id: string
   base64: string
   mediaType: string
   name: string
+  path?: string
 }
 
 export const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -48,9 +50,10 @@ const readPictureOf = (id: string, input: unknown, output: unknown): Picture[] =
     return []
   }
 
-  const path = isRecord(input) && typeof input.file_path === 'string' ? input.file_path : 'image'
+  const path = isRecord(input) && typeof input.file_path === 'string' ? input.file_path : undefined
+  const name = path === undefined ? 'image' : path.slice(path.lastIndexOf('/') + 1)
 
-  return [{ id: `${id}#0`, base64, mediaType: type, name: path.slice(path.lastIndexOf('/') + 1) }]
+  return [{ id: `${id}#0`, base64, mediaType: type, name, ...(path === undefined ? {} : { path }) }]
 }
 
 const mcpPicturesOf = (id: string, tool: string, output: unknown): Picture[] => {

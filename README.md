@@ -7,6 +7,9 @@ A Claude Mod that draws pictures right in the terminal transcript:
 - **MCP tools.** Image blocks in an MCP tool's result (browser screenshots,
   charts) show under its row.
 - **Pastes.** Images you paste or drag into a prompt show under that prompt.
+- **Shared files.** When Claude sends you an image with `SendUserFile`, it
+  shows under the row too, read from the file as it was when the row first
+  drew (a file deleted since, or over 4 MiB, shows nothing).
 
 In a collapsed group (`Read 3 files`, `Called shots`), the pictures sit side
 by side under the line.
@@ -17,9 +20,11 @@ It draws through Claude Code's own terminal `Image` element, which speaks the
 kitty graphics protocol. That works in kitty and Ghostty. Other terminals get
 the `alt` text (`photo.png · 800×800`).
 
-Click a picture to hide it. Its caption stays (`▸ photo.png · 800×800`);
-click the caption to show the picture again. Clicking the caption of a shown
-picture (`▾`) hides it too. A picture hidden under a group's line stays
+Click a picture to open it in your image viewer (`xdg-open`, or `open` on
+macOS). A `Read` opens the file itself, at full size; a pasted or MCP image
+is written to `claude-images/` under `$XDG_RUNTIME_DIR` (else `$TMPDIR`)
+first. Click a caption (`▾ photo.png ·
+800×800`) to hide its picture, and again (`▸`) to show it. A picture hidden under a group's line stays
 hidden on its own row in the ctrl+o transcript. The mouse wheel still scrolls
 over a picture.
 
@@ -53,7 +58,8 @@ claude --plugin-dir /path/to/claude-mod-images
 
 ## Use
 
-- **Click a picture** to hide it; click its caption to show it again.
+- **Click a picture** to open it in your image viewer.
+- **Click its caption** to hide it; click again to show it.
 - **`/images off`** stops every picture for the session, **`/images on`**
   brings them back, and a bare **`/images`** flips between the two. It is the
   way to hide pictures on the main screen, where clicks don't reach them,
@@ -93,10 +99,10 @@ Known limits:
 
 `Image` is a leaf with no press handler. Text drawn over it would replace the
 placeholder cells that carry its pixels. So each picture has a `Client`
-region (`hooks/click-to-hide.tsx`) laid over it that draws nothing. The
+region (`hooks/click-to-open.tsx`) laid over it that draws nothing. The
 pixels show through, and the region hears the pointer. A left press and
-release inside it posts the picture's id, and a `ui.message` hook flips its
-`isHidden` state.
+release inside it posts the picture's id, and a `ui.message` hook opens the
+picture with `xdg-open` (or `open`), detached so the hook returns at once.
 
 ## Develop
 

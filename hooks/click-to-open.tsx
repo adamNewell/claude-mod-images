@@ -4,9 +4,9 @@ import type { ClientModule } from 'claude-code'
  * A picture's click target, drawn over it and drawing nothing, so its pixels
  * show through: a left button down then up inside it posts the picture's id.
  *
- * @param id the picture's id, which the hooks module's `ui.message` toggles
+ * @param id the picture's id, which the hooks module's `ui.message` opens
  */
-const ClickToHide: ClientModule<string, true> = (id, surface) => {
+const ClickToOpen: ClientModule<string, true> = (id, surface) => {
   if (surface.state === undefined) {
     let isDown = false
 
@@ -32,4 +32,4 @@ const ClickToHide: ClientModule<string, true> = (id, surface) => {
   return <Box />
 }
 
-export default ClickToHide
+export default ClickToOpen
